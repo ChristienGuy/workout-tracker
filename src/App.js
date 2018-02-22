@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-
 import Reboot from "material-ui/Reboot";
 
 import Button from "material-ui/Button";
-import AppBar from "material-ui/AppBar";
-import Toolbar from "material-ui/Toolbar";
-import Typography from "material-ui/Typography";
-import AddIcon from "material-ui-icons/Add";
+import { Edit } from "material-ui-icons";
 
 import { withStyles } from "material-ui/styles";
 
 import ExerciseTable from "./components/ExerciseTable";
 import AddExerciseForm from "./components/AddExerciseForm";
+import TopBar from "./components/TopBar";
 
 class App extends Component {
   state = {
@@ -27,9 +24,6 @@ class App extends Component {
   }
 
   updateLocalStorage = () => {
-    console.log('====================================');
-    console.log(this.state.exercises);
-    console.log('====================================');
     window.localStorage.setItem(
       "exercises",
       JSON.stringify(this.state.exercises)
@@ -46,23 +40,22 @@ class App extends Component {
       timestamp: Date.now()
     });
 
-    this.setState(
-      { exercises },
-      localStorage.setItem("exercises", this.updateLocalStorage())
-    );
+    this.setState({ exercises }, this.updateLocalStorage());
     this.toggleAddForm();
   };
 
   updateEditState = exercise => {
     const { exercises } = this.state;
-    const exerciseIndex = this.state.exercises.map(e => e.timestamp).indexOf(exercise.timestamp);
+    const exerciseIndex = this.state.exercises
+      .map(e => e.timestamp)
+      .indexOf(exercise.timestamp);
 
     exercises[exerciseIndex] = {
       name: exercise.name,
       reps: exercise.reps,
       weight: exercise.reps,
       timestamp: exercise.timestamp
-    }
+    };
 
     this.setState({ exercises }, this.updateLocalStorage());
   };
@@ -89,30 +82,31 @@ class App extends Component {
           open={addFormVisible}
           addExercise={this.addExercise}
         />
-        <ExerciseTable
-          updateEditState={this.updateEditState}
-          isEditable={editingExercises}
-          exercises={exercises}
-        />
-        <Button onClick={this.toggleEditingExercises} color="primary">
-          {editingExercises ? "Save" : "Edit"}
-        </Button>
-        <Fab toggleAddForm={this.toggleAddForm} />
+        {exercises.length > 0 && (
+          <ExerciseTable
+            updateEditState={this.updateEditState}
+            isEditable={editingExercises}
+            exercises={exercises}
+          />
+        )}
+        {exercises.length > 0 && (
+          <EditFab toggleEditingExercises={this.toggleEditingExercises} />
+        )}
+        <AddButton raised={exercises.length > 0} onClick={this.toggleAddForm} />
       </div>
     );
   }
 }
 
-const TopBar = () => (
-  <AppBar>
-    <Toolbar>
-      <Typography variant="title" color="inherit">
-        Exercises
-      </Typography>
-    </Toolbar>
-  </AppBar>
+const AddButton = ({ raised, onClick }) => (
+  <Button
+    variant={raised ? "flat" : "raised"}
+    onClick={onClick}
+    color="primary"
+  >
+    Add
+  </Button>
 );
-
 const styles = theme => ({
   fab: {
     position: "absolute",
@@ -121,14 +115,14 @@ const styles = theme => ({
   }
 });
 
-const Fab = withStyles(styles)(({ classes, toggleAddForm }) => (
+const EditFab = withStyles(styles)(({ classes, toggleEditingExercises }) => (
   <Button
     className={classes.fab}
     color="primary"
     variant="fab"
-    onClick={toggleAddForm}
+    onClick={toggleEditingExercises}
   >
-    <AddIcon />
+    <Edit />
   </Button>
 ));
 
