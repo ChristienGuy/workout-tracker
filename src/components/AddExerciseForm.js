@@ -44,7 +44,7 @@ class AddExerciseForm extends Component {
     };
 
     this.props.addExercise(exercise);
-  }
+  };
 
   render() {
     const { open, classes, toggleAddForm, fullScreen } = this.props;

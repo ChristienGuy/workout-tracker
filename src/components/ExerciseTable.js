@@ -7,27 +7,27 @@ import Table, {
   TableRow
 } from "material-ui/Table";
 import Input from "material-ui/Input";
-import Paper from "material-ui/Paper";
 
 import { FormControl } from "material-ui/Form";
 
 const ExerciseTable = ({ exercises, isEditable, updateEditState }) => (
-  <Paper>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Name</TableCell>
-          <TableCell>Reps</TableCell>
-          <TableCell>Weight (kg)</TableCell>
-        </TableRow>
-      </TableHead>
-      {isEditable ? (
-        <ExerciseRowsEditable updateEditState={updateEditState} exercises={exercises} />
-      ) : (
-        <ExerciseRows exercises={exercises} />
-      )}
-    </Table>
-  </Paper>
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableCell>Name</TableCell>
+        <TableCell>Reps</TableCell>
+        <TableCell>Weight (kg)</TableCell>
+      </TableRow>
+    </TableHead>
+    {isEditable ? (
+      <ExerciseRowsEditable
+        updateEditState={updateEditState}
+        exercises={exercises}
+      />
+    ) : (
+      <ExerciseRows exercises={exercises} />
+    )}
+  </Table>
 );
 
 const ExerciseRows = ({ exercises }) => (
@@ -45,7 +45,11 @@ const ExerciseRows = ({ exercises }) => (
 const ExerciseRowsEditable = ({ exercises, updateEditState }) => (
   <TableBody>
     {exercises.map((exercise, index) => (
-      <EditableRow key={index} updateEditState={updateEditState} exercise={exercise} />
+      <EditableRow
+        key={index}
+        updateEditState={updateEditState}
+        exercise={exercise}
+      />
     ))}
   </TableBody>
 );

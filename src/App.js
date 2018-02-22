@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Reboot from "material-ui/Reboot";
-
+import { newExercise } from "./helpers";
 import Button from "material-ui/Button";
 import { Edit } from "material-ui-icons";
 
@@ -9,6 +9,15 @@ import { withStyles } from "material-ui/styles";
 import ExerciseTable from "./components/ExerciseTable";
 import AddExerciseForm from "./components/AddExerciseForm";
 import TopBar from "./components/TopBar";
+
+// STYLES
+const styles = theme => ({
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2
+  }
+});
 
 class App extends Component {
   state = {
@@ -30,15 +39,11 @@ class App extends Component {
     );
   };
 
-  addExercise = exercise => {
+  addExercise = exerciseData => {
     const { exercises } = this.state;
+    const exercise = newExercise(exerciseData);
 
-    exercises.push({
-      name: exercise.name,
-      reps: exercise.reps,
-      weight: exercise.weight,
-      timestamp: Date.now()
-    });
+    exercises.push(exercise);
 
     this.setState({ exercises }, this.updateLocalStorage());
     this.toggleAddForm();
@@ -92,7 +97,14 @@ class App extends Component {
         {exercises.length > 0 && (
           <EditFab toggleEditingExercises={this.toggleEditingExercises} />
         )}
-        <AddButton raised={exercises.length > 0} onClick={this.toggleAddForm} />
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", width: "100%", marginTop: 20 }}
+        >
+          <AddButton
+            raised={exercises.length > 0}
+            onClick={this.toggleAddForm}
+          />
+        </div>
       </div>
     );
   }
@@ -107,13 +119,6 @@ const AddButton = ({ raised, onClick }) => (
     Add
   </Button>
 );
-const styles = theme => ({
-  fab: {
-    position: "absolute",
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2
-  }
-});
 
 const EditFab = withStyles(styles)(({ classes, toggleEditingExercises }) => (
   <Button
