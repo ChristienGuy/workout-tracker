@@ -3,7 +3,7 @@ import Reboot from "material-ui/Reboot";
 import { newExercise } from "./helpers";
 import Button from "material-ui/Button";
 import { Edit } from "material-ui-icons";
-
+import { Zoom } from "material-ui";
 import { withStyles } from "material-ui/styles";
 
 import ExerciseTable from "./components/ExerciseTable";
@@ -49,6 +49,11 @@ class App extends Component {
     this.toggleAddForm();
   };
 
+  deleteExercise = exercise => {
+    const exercises = this.state.exercises.filter(e => e.timestamp !== exercise.timestamp)
+    this.setState({ exercises });
+  }
+
   updateEditState = exercise => {
     const { exercises } = this.state;
     const exerciseIndex = this.state.exercises
@@ -58,7 +63,7 @@ class App extends Component {
     exercises[exerciseIndex] = {
       name: exercise.name,
       reps: exercise.reps,
-      weight: exercise.reps,
+      weight: exercise.weight,
       timestamp: exercise.timestamp
     };
 
@@ -92,18 +97,36 @@ class App extends Component {
             updateEditState={this.updateEditState}
             isEditable={editingExercises}
             exercises={exercises}
+            deleteExercise={this.deleteExercise}
           />
         )}
         {exercises.length > 0 && (
           <EditFab toggleEditingExercises={this.toggleEditingExercises} />
         )}
         <div
-          style={{ display: "flex", justifyContent: "flex-end", width: "100%", marginTop: 20 }}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            marginTop: 20,
+            paddingLeft: 20,
+            paddingRight: 20
+          }}
         >
           <AddButton
             raised={exercises.length > 0}
             onClick={this.toggleAddForm}
           />
+
+          <Zoom in={editingExercises} unmountOnExit>
+            <Button
+              color="primary"
+              variant="raised"
+              onClick={this.toggleEditingExercises}
+            >
+              Save
+            </Button>
+          </Zoom>
         </div>
       </div>
     );

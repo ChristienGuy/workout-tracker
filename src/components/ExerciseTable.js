@@ -7,13 +7,24 @@ import Table, {
   TableRow
 } from "material-ui/Table";
 import Input from "material-ui/Input";
+import { Delete } from "material-ui-icons";
 
 import { FormControl } from "material-ui/Form";
 
-const ExerciseTable = ({ exercises, isEditable, updateEditState }) => (
+const ExerciseTable = ({
+  exercises,
+  deleteExercise,
+  isEditable,
+  updateEditState
+}) => (
   <Table>
     <TableHead>
       <TableRow>
+        {isEditable && (
+          <TableCell style={{ padding: 0, paddingLeft: 24 }}>
+            <Delete />
+          </TableCell>
+        )}
         <TableCell>Name</TableCell>
         <TableCell>Reps</TableCell>
         <TableCell>Weight (kg)</TableCell>
@@ -23,6 +34,7 @@ const ExerciseTable = ({ exercises, isEditable, updateEditState }) => (
       <ExerciseRowsEditable
         updateEditState={updateEditState}
         exercises={exercises}
+        deleteExercise={deleteExercise}
       />
     ) : (
       <ExerciseRows exercises={exercises} />
@@ -42,13 +54,18 @@ const ExerciseRows = ({ exercises }) => (
   </TableBody>
 );
 
-const ExerciseRowsEditable = ({ exercises, updateEditState }) => (
+const ExerciseRowsEditable = ({
+  exercises,
+  updateEditState,
+  deleteExercise
+}) => (
   <TableBody>
     {exercises.map((exercise, index) => (
       <EditableRow
         key={index}
         updateEditState={updateEditState}
         exercise={exercise}
+        deleteExercise={deleteExercise}
       />
     ))}
   </TableBody>
@@ -91,8 +108,20 @@ class EditableRow extends Component {
 
   render() {
     const { name, reps, weight } = this.state;
+    const { deleteExercise, exercise } = this.props;
     return (
       <TableRow>
+        <TableCell style={{ padding: 0, paddingLeft: 24 }}>
+          <Delete
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you want to delete this exercise?")
+              ) {
+                deleteExercise(exercise);
+              }
+            }}
+          />
+        </TableCell>
         <TableCell>
           <FormControl>
             <Input
