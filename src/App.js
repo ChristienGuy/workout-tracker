@@ -2,22 +2,12 @@ import React, { Component } from "react";
 import Reboot from "material-ui/Reboot";
 import { newExercise } from "./helpers";
 import Button from "material-ui/Button";
-import { Edit } from "material-ui-icons";
 import { Zoom } from "material-ui";
-import { withStyles } from "material-ui/styles";
 
 import ExerciseTable from "./components/ExerciseTable";
 import AddExerciseForm from "./components/AddExerciseForm";
 import TopBar from "./components/TopBar";
-
-// STYLES
-const styles = theme => ({
-  fab: {
-    position: "absolute",
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2
-  }
-});
+import RestButton from "./components/RestButton";
 
 class App extends Component {
   state = {
@@ -83,12 +73,6 @@ class App extends Component {
     });
   };
 
-  startExercise = () => {
-    console.log("====================================");
-    console.log("Starting exercise");
-    console.log("====================================");
-  };
-
   render() {
     const { addFormVisible, editingExercises, exercises } = this.state;
     return (
@@ -108,6 +92,18 @@ class App extends Component {
             deleteExercise={this.deleteExercise}
           />
         )}
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "flex-end",
+            marginTop: 20,
+            paddingLeft: 20,
+            paddingRight: 20
+          }}
+        >
+        <RestButton />
+        </div>
         <div
           style={{
             position: "absolute",
@@ -155,25 +151,5 @@ const AddButton = ({ raised, onClick }) => (
     Add
   </Button>
 );
-
-const StartExerciseFab = withStyles(styles)(({ classes, startExercise }) => (
-  <Button
-    className={classes.fab}
-    color="primary"
-    variant="fab"
-    onClick={startExercise}
-  >S</Button>
-));
-
-const EditFab = withStyles(styles)(({ classes, toggleEditingExercises }) => (
-  <Button
-    className={classes.fab}
-    color="primary"
-    variant="fab"
-    onClick={toggleEditingExercises}
-  >
-    <Edit />
-  </Button>
-));
 
 export default App;
