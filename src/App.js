@@ -50,9 +50,11 @@ class App extends Component {
   };
 
   deleteExercise = exercise => {
-    const exercises = this.state.exercises.filter(e => e.timestamp !== exercise.timestamp)
+    const exercises = this.state.exercises.filter(
+      e => e.timestamp !== exercise.timestamp
+    );
     this.setState({ exercises });
-  }
+  };
 
   updateEditState = exercise => {
     const { exercises } = this.state;
@@ -81,6 +83,12 @@ class App extends Component {
     });
   };
 
+  startExercise = () => {
+    console.log("====================================");
+    console.log("Starting exercise");
+    console.log("====================================");
+  };
+
   render() {
     const { addFormVisible, editingExercises, exercises } = this.state;
     return (
@@ -100,11 +108,11 @@ class App extends Component {
             deleteExercise={this.deleteExercise}
           />
         )}
-        {exercises.length > 0 && (
-          <EditFab toggleEditingExercises={this.toggleEditingExercises} />
-        )}
         <div
           style={{
+            position: "absolute",
+            bottom: 20,
+            right: 0,
             display: "flex",
             justifyContent: "flex-end",
             width: "100%",
@@ -113,6 +121,11 @@ class App extends Component {
             paddingRight: 20
           }}
         >
+          {exercises.length > 0 && (
+            <Button color="primary" onClick={this.toggleEditingExercises}>
+              Edit
+            </Button>
+          )}
           <AddButton
             raised={exercises.length > 0}
             onClick={this.toggleAddForm}
@@ -142,6 +155,15 @@ const AddButton = ({ raised, onClick }) => (
     Add
   </Button>
 );
+
+const StartExerciseFab = withStyles(styles)(({ classes, startExercise }) => (
+  <Button
+    className={classes.fab}
+    color="primary"
+    variant="fab"
+    onClick={startExercise}
+  >S</Button>
+));
 
 const EditFab = withStyles(styles)(({ classes, toggleEditingExercises }) => (
   <Button
