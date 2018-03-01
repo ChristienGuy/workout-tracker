@@ -14,6 +14,10 @@ export default class RestButton extends Component {
     });
   };
 
+  onEndTimer = () => {
+    this.setState({ timer: 0 });
+  }
+
   render() {
     const { timer } = this.state;
     return (
@@ -22,9 +26,7 @@ export default class RestButton extends Component {
           "Rest"
         ) : (
           <Timer
-            onEndTimer={() => {
-              this.setState({ timer: 0 });
-            }}
+            onEndTimer={this.onEndTimer}
             milliseconds={timer}
           />
         )}

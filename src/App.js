@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Reboot from "material-ui/Reboot";
+
+import styled from "styled-components";
 import { newExercise } from "./helpers";
+
 import Button from "material-ui/Button";
 import { Zoom } from "material-ui";
 
@@ -54,6 +57,7 @@ class App extends Component {
 
     exercises[exerciseIndex] = {
       name: exercise.name,
+      sets: exercise.sets,
       reps: exercise.reps,
       weight: exercise.weight,
       timestamp: exercise.timestamp
@@ -92,31 +96,12 @@ class App extends Component {
             deleteExercise={this.deleteExercise}
           />
         )}
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "flex-end",
-            marginTop: 20,
-            paddingLeft: 20,
-            paddingRight: 20
-          }}
-        >
-        <RestButton />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: 20,
-            right: 0,
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            marginTop: 20,
-            paddingLeft: 20,
-            paddingRight: 20
-          }}
-        >
+        {exercises.length > 0 && (
+          <ChildrenRight>
+            <RestButton />
+          </ChildrenRight>
+        )}
+        <ChildrenBottomRight>
           {exercises.length > 0 && (
             <Button color="primary" onClick={this.toggleEditingExercises}>
               Edit
@@ -136,11 +121,31 @@ class App extends Component {
               Save
             </Button>
           </Zoom>
-        </div>
+        </ChildrenBottomRight>
       </div>
     );
   }
 }
+
+const ChildrenBottomRight = styled.div`
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20;
+  padding-left: 20px;
+  padding-right: 20px;
+`;
+const ChildrenRight = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+`;
 
 const AddButton = ({ raised, onClick }) => (
   <Button

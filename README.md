@@ -1,10 +1,4 @@
-TODO:
 
-* Ability to delete an exercise
-* Ability to re-order exercises
-  * Give each one an order value
-  * Allow changing of order value
-    * Drag around
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

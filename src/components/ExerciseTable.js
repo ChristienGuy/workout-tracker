@@ -26,6 +26,7 @@ const ExerciseTable = ({
           </TableCell>
         )}
         <TableCell>Name</TableCell>
+        <TableCell>Sets</TableCell>
         <TableCell>Reps</TableCell>
         <TableCell>Weight (kg)</TableCell>
       </TableRow>
@@ -47,6 +48,7 @@ const ExerciseRows = ({ exercises }) => (
     {exercises.map((exercise, index) => (
       <TableRow key={index}>
         <TableCell>{exercise.name}</TableCell>
+        <TableCell>{exercise.sets}</TableCell>
         <TableCell>{exercise.reps}</TableCell>
         <TableCell>{exercise.weight}</TableCell>
       </TableRow>
@@ -74,8 +76,9 @@ const ExerciseRowsEditable = ({
 class EditableRow extends Component {
   state = {
     name: "",
-    reps: "",
-    weight: "",
+    reps: 0,
+    sets: 0,
+    weight: 0,
     timestamp: null
   };
 
@@ -85,9 +88,10 @@ class EditableRow extends Component {
         [name]: event.target.value
       },
       () => {
-        const { name, reps, weight, timestamp } = this.state;
+        const { name, sets, reps, weight, timestamp } = this.state;
         this.props.updateEditState({
           name,
+          sets,
           reps,
           weight,
           timestamp
@@ -97,9 +101,10 @@ class EditableRow extends Component {
   };
 
   componentWillMount() {
-    const { name, reps, weight, timestamp } = this.props.exercise;
+    const { name, sets, reps, weight, timestamp } = this.props.exercise;
     this.setState({
       name,
+      sets: sets || 0,
       reps,
       weight,
       timestamp
@@ -107,7 +112,7 @@ class EditableRow extends Component {
   }
 
   render() {
-    const { name, reps, weight } = this.state;
+    const { name, sets, reps, weight } = this.state;
     const { deleteExercise, exercise } = this.props;
     return (
       <TableRow>
@@ -128,6 +133,15 @@ class EditableRow extends Component {
               onChange={this.handleChange("name")}
               type="text"
               value={name}
+            />
+          </FormControl>
+        </TableCell>
+        <TableCell>
+          <FormControl>
+            <Input
+              onChange={this.handleChange("sets")}
+              type="number"
+              value={sets}
             />
           </FormControl>
         </TableCell>

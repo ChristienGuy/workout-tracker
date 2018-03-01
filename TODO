@@ -1,0 +1,10 @@
+Todo:
+  ☐ Cancel editing
+  Re-order:
+    ☐ Give each one an order value
+    ☐ Drag to re-order
+    ☐ Update order on drop
+    ☐ Sort list by order value
+
+  Done:
+  ✔ Ability to delete an exercise @done(18-03-01 11:21)
