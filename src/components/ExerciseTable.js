@@ -11,6 +11,12 @@ import { Delete } from "material-ui-icons";
 
 import { FormControl } from "material-ui/Form";
 
+const styles = {
+  smallTableCell: {
+    padding: 0,
+    paddingLeft: 12
+  }
+};
 const ExerciseTable = ({
   exercises,
   deleteExercise,
@@ -26,8 +32,8 @@ const ExerciseTable = ({
           </TableCell>
         )}
         <TableCell>Name</TableCell>
-        <TableCell>Sets</TableCell>
-        <TableCell>Reps</TableCell>
+        <TableCell style={{ ...styles.smallTableCell }}>Sets</TableCell>
+        <TableCell style={styles.smallTableCell}>Reps</TableCell>
         <TableCell>Weight (kg)</TableCell>
       </TableRow>
     </TableHead>
@@ -48,8 +54,10 @@ const ExerciseRows = ({ exercises }) => (
     {exercises.map((exercise, index) => (
       <TableRow key={index}>
         <TableCell>{exercise.name}</TableCell>
-        <TableCell>{exercise.sets}</TableCell>
-        <TableCell>{exercise.reps}</TableCell>
+        <TableCell style={{ ...styles.smallTableCell }}>
+          {exercise.sets}
+        </TableCell>
+        <TableCell style={styles.smallTableCell}>{exercise.reps}</TableCell>
         <TableCell>{exercise.weight}</TableCell>
       </TableRow>
     ))}
@@ -127,7 +135,7 @@ class EditableRow extends Component {
             }}
           />
         </TableCell>
-        <TableCell>
+        <TableCell style={{ padding: 0, paddingLeft: 24 }}>
           <FormControl>
             <Input
               onChange={this.handleChange("name")}
@@ -136,7 +144,7 @@ class EditableRow extends Component {
             />
           </FormControl>
         </TableCell>
-        <TableCell>
+        <TableCell style={{ ...styles.smallTableCell }}>
           <FormControl>
             <Input
               onChange={this.handleChange("sets")}
@@ -145,7 +153,7 @@ class EditableRow extends Component {
             />
           </FormControl>
         </TableCell>
-        <TableCell>
+        <TableCell style={styles.smallTableCell}>
           <FormControl>
             <Input
               onChange={this.handleChange("reps")}
