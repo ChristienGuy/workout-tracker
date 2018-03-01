@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Reboot from "material-ui/Reboot";
 
 import styled from "styled-components";
@@ -89,17 +89,17 @@ class App extends Component {
           addExercise={this.addExercise}
         />
         {exercises.length > 0 && (
-          <ExerciseTable
-            updateEditState={this.updateEditState}
-            isEditable={editingExercises}
-            exercises={exercises}
-            deleteExercise={this.deleteExercise}
-          />
-        )}
-        {exercises.length > 0 && (
-          <ChildrenRight>
-            <RestButton />
-          </ChildrenRight>
+          <Fragment>
+            <ExerciseTable
+              updateEditState={this.updateEditState}
+              isEditable={editingExercises}
+              exercises={exercises}
+              deleteExercise={this.deleteExercise}
+            />
+            <ChildrenRight>
+              <RestButton />
+            </ChildrenRight>
+          </Fragment>
         )}
         <ChildrenBottomRight>
           {exercises.length > 0 && (
