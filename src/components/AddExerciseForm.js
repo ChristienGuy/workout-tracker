@@ -24,8 +24,9 @@ const styles = theme => ({
 class AddExerciseForm extends Component {
   state = {
     name: "",
-    reps: "",
-    weight: ""
+    sets: 0,
+    reps: 0,
+    weight: 0
   };
 
   handleChange = name => event => {
@@ -35,10 +36,11 @@ class AddExerciseForm extends Component {
   };
 
   submitForm = () => {
-    const { name, reps, weight } = this.state;
+    const { name, sets, reps, weight } = this.state;
 
     const exercise = {
       name,
+      sets,
       reps,
       weight
     };
@@ -64,6 +66,16 @@ class AddExerciseForm extends Component {
                 value={this.state.name}
                 onChange={this.handleChange("name")}
                 id="name"
+              />
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="sets">Sets</InputLabel>
+              <Input
+                value={this.state.sets}
+                onChange={this.handleChange("sets")}
+                id="sets"
+                name="sets"
+                type="number"
               />
             </FormControl>
             <FormControl className={classes.formControl}>
